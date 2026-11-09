@@ -1,0 +1,792 @@
+
+/* =========================================================
+   1. DARK THEME
+   ========================================================= */
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+
+    --bg: #0c0e12;
+    --surface: #13171f;
+    --surface-raised: #191e28;
+    --surface-hover: #202633;
+
+    --border: #292f3b;
+    --border-strong: #3a4352;
+
+    --text: #edf0f5;
+    --text-secondary: #b0b8c6;
+    --muted: #858f9f;
+
+    --accent: #a78bfa;
+    --accent-hover: #bda8ff;
+    --accent-soft: #a78bfa18;
+    --accent-text: #171020;
+
+    --success: #5dd6a0;
+    --success-soft: #5dd6a018;
+
+    --danger: #ff7777;
+    --danger-soft: #ff777718;
+
+    --shadow: 0 12px 35px #00000020;
+    --focus-ring: #a78bfa70;
+
+    --background-glow: #29204430;
+}
+
+
+/* =========================================================
+   2. LIGHT THEME
+   ========================================================= */
+
+html[data-theme="light"] {
+    color-scheme: light;
+
+    --bg: #f6f7fb;
+    --surface: #ffffff;
+    --surface-raised: #fafbfe;
+    --surface-hover: #f0effa;
+
+    --border: #e5e7ed;
+    --border-strong: #cdd1dc;
+
+    --text: #202431;
+    --text-secondary: #515b6d;
+    --muted: #778196;
+
+    --accent: #7554d6;
+    --accent-hover: #6342c2;
+    --accent-soft: #7554d612;
+    --accent-text: #ffffff;
+
+    --success: #16885c;
+    --success-soft: #16885c12;
+
+    --danger: #d94d58;
+    --danger-soft: #d94d5812;
+
+    --shadow: 0 12px 35px #26304a0c;
+    --focus-ring: #7554d650;
+
+    --background-glow: #7554d609;
+}
+
+
+/* =========================================================
+   3. GLOBAL RESET
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    min-width: 320px;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            ellipse at 50% -15%,
+            var(--background-glow),
+            transparent 65%
+        ),
+        var(--bg);
+
+    color: var(--text);
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 14px;
+    line-height: 1.6;
+
+    padding: 48px 28px;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+}
+
+::selection {
+    background: var(--accent);
+    color: var(--accent-text);
+}
+
+
+/* =========================================================
+   4. MAIN CONTAINER
+   ========================================================= */
+
+.container {
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+}
+
+
+/* =========================================================
+   5. HEADER
+   ========================================================= */
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+
+    margin-bottom: 76px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--accent);
+    color: var(--accent-text);
+
+    border-radius: 12px;
+
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 9px 13px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+
+    background: var(--success);
+    border-radius: 50%;
+
+    box-shadow: 0 0 10px var(--success-soft);
+}
+
+
+/* =========================================================
+   6. THEME BUTTON
+   ========================================================= */
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    min-height: 38px;
+    padding: 8px 13px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.theme-toggle:hover {
+    background: var(--surface-hover);
+    border-color: var(--border-strong);
+    color: var(--text);
+}
+
+
+/* =========================================================
+   7. HERO SECTION
+   ========================================================= */
+
+.hero {
+    margin-bottom: 42px;
+}
+
+.eyebrow {
+    margin-bottom: 17px;
+
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+h1 {
+    margin-bottom: 19px;
+
+    color: var(--text);
+
+    font-size: clamp(38px, 6vw, 60px);
+    font-weight: 750;
+    letter-spacing: -2.8px;
+    line-height: 1.08;
+}
+
+h1 span {
+    color: var(--accent);
+}
+
+.subtitle {
+    max-width: 540px;
+
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   8. STATISTICS
+   ========================================================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+
+    margin-bottom: 24px;
+}
+
+.stat {
+    min-width: 0;
+    padding: 22px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+
+    box-shadow: var(--shadow);
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.stat-label {
+    margin-bottom: 12px;
+
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.stat-value {
+    color: var(--text);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+    overflow-wrap: anywhere;
+}
+
+/* Preserve the API status color in both themes. */
+.stat-value[style*="--green"] {
+    color: var(--success) !important;
+}
+
+
+/* =========================================================
+   9. MAIN WORKSPACE
+   ========================================================= */
+
+.workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.85fr);
+    align-items: start;
+    gap: 18px;
+}
+
+.panel {
+    min-width: 0;
+    padding: 25px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+
+    box-shadow: var(--shadow);
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin-bottom: 22px;
+}
+
+h2 {
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 650;
+    letter-spacing: -0.3px;
+}
+
+.count {
+    color: var(--muted);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   10. BOOKMARK LIST
+   ========================================================= */
+
+.bookmark-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bookmark {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+
+    min-width: 0;
+    padding: 15px;
+
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.bookmark:hover {
+    background: var(--surface-hover);
+    border-color: var(--border-strong);
+    transform: translateY(-1px);
+}
+
+.bookmark-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.bookmark-title {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 650;
+
+    text-decoration: none;
+    overflow-wrap: anywhere;
+
+    transition: color 0.15s ease;
+}
+
+.bookmark-title:hover {
+    color: var(--accent);
+}
+
+.bookmark-url {
+    color: var(--muted);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+    line-height: 1.5;
+}
+
+.bookmark-id {
+    margin-top: 7px;
+
+    color: var(--muted);
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   11. DELETE BUTTON
+   ========================================================= */
+
+.delete-btn {
+    flex-shrink: 0;
+
+    padding: 7px 11px;
+
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+    background: var(--danger-soft);
+}
+
+.delete-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   12. EMPTY STATE
+   ========================================================= */
+
+.empty {
+    padding: 38px 15px;
+
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+}
+
+
+/* =========================================================
+   13. ADD BOOKMARK FORM
+   ========================================================= */
+
+#bookmark-form {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 8px;
+
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.field input {
+    width: 100%;
+    min-height: 45px;
+
+    padding: 11px 13px;
+
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    color: var(--text);
+    font-size: 13px;
+
+    outline: none;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.field input::placeholder {
+    color: var(--muted);
+    opacity: 0.8;
+}
+
+.field input:hover {
+    border-color: var(--border-strong);
+}
+
+.field input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+
+/* =========================================================
+   14. ADD BUTTON
+   ========================================================= */
+
+.add-btn {
+    width: 100%;
+    min-height: 45px;
+
+    padding: 12px 16px;
+
+    background: var(--accent);
+    border: 1px solid transparent;
+    border-radius: 8px;
+
+    color: var(--accent-text);
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.add-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+.add-btn:active {
+    transform: translateY(0);
+}
+
+.add-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+}
+
+
+/* =========================================================
+   15. FORM MESSAGE
+   ========================================================= */
+
+.message {
+    min-height: 18px;
+
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   16. FOOTER
+   ========================================================= */
+
+.footer {
+    margin-top: 36px;
+    padding-bottom: 10px;
+
+    color: var(--muted);
+    font-size: 11px;
+    text-align: center;
+}
+
+
+/* =========================================================
+   17. RESPONSIVE DESIGN - TABLETS
+   ========================================================= */
+
+@media (max-width: 800px) {
+    body {
+        padding: 36px 22px;
+    }
+
+    header {
+        margin-bottom: 58px;
+    }
+
+    .workspace {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .panel {
+        padding: 22px;
+    }
+
+    .hero {
+        margin-bottom: 34px;
+    }
+}
+
+
+/* =========================================================
+   18. RESPONSIVE DESIGN - MOBILE
+   ========================================================= */
+
+@media (max-width: 560px) {
+    body {
+        padding: 25px 16px;
+    }
+
+    header {
+        flex-wrap: wrap;
+        margin-bottom: 48px;
+    }
+
+    .brand {
+        font-size: 15px;
+    }
+
+    .logo {
+        width: 36px;
+        height: 36px;
+    }
+
+    .hero {
+        margin-bottom: 30px;
+    }
+
+    h1 {
+        font-size: clamp(36px, 10vw, 46px);
+        letter-spacing: -1.8px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+    .stats {
+        gap: 9px;
+    }
+
+    .stat {
+        padding: 13px 11px;
+        border-radius: 10px;
+    }
+
+    .stat-label {
+        font-size: 10px;
+        margin-bottom: 9px;
+    }
+
+    .stat-value {
+        font-size: 18px;
+    }
+
+    .panel {
+        padding: 18px;
+    }
+
+    .bookmark {
+        padding: 13px;
+        gap: 9px;
+    }
+
+    .bookmark-title {
+        font-size: 13px;
+    }
+
+    .bookmark-url {
+        font-size: 11px;
+    }
+}
+
+
+/* =========================================================
+   19. VERY SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 360px) {
+    body {
+        padding-inline: 12px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .stat {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .stat-label {
+        margin: 0;
+    }
+
+    .stat-value {
+        font-size: 17px;
+    }
+
+    .panel {
+        padding: 15px;
+    }
+}
+
+
+/* =========================================================
+   20. ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

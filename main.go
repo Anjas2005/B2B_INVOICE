@@ -18,6 +18,15 @@ var nextID = 1
 
 func main() {
 	router := gin.Default()
+	
+	// Home Page Shows some cool UI.	
+	router.LoadHTMLFiles("templates/index.html")
+	router.Static("/static","./static")
+	router.GET("/",func(c *gin.Context){
+		c.HTML(200,"index.html",gin.H{
+			"title":"Bookmarks API",
+		})
+	})
 
 	// Read all bookmarks
 	router.GET("/bookmarks", func(c *gin.Context) {
