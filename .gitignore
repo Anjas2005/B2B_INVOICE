@@ -1,0 +1,80 @@
+# ==========================================
+# Go binaries
+# ==========================================
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.a
+*.o
+*.obj
+*.test
+*.out
+
+# Project binary
+/bookmarks-api
+
+# ==========================================
+# Go build and test artifacts
+# ==========================================
+/tmp/
+/build/
+/dist/
+coverage.out
+coverage.html
+*.prof
+*.cover
+
+# ==========================================
+# Environment variables and secrets
+# ==========================================
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
+# ==========================================
+# Database files
+# ==========================================
+*.db
+*.sqlite
+*.sqlite3
+
+# ==========================================
+# Logs
+# ==========================================
+*.log
+logs/
+
+# ==========================================
+# Go workspace files (local)
+# Uncomment if you don't want to commit these
+# ==========================================
+# go.work
+# go.work.sum
+
+# ==========================================
+# IDEs and editors
+# ==========================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ==========================================
+# Air (Live Reload)
+# ==========================================
+.air/
+air.log
+
+# ==========================================
+# Operating system files
+# ==========================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+desktop.ini
