@@ -13,7 +13,7 @@
 *.out
 
 # Project binary
-/bookmarks-api
+bookmarks-api
 
 # ==========================================
 # Go build and test artifacts
