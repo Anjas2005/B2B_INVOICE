@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"github.com/Anjas2005/bookmarks-api/db"
+	invoiceRoutes "github.com/Anjas2005/bookmarks-api/routes"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -33,6 +35,15 @@ func main() {
 		return
 	}
 	// Close the pool after the main server ends
-	// NOTE: defer calls run LIFO so cancel calls before dbpool. 
+	// NOTE: defer calls run LIFO so cancel calls before dbpool.
 	defer dbPool.Close()
+
+	router := gin.Default()
+
+	invoiceRoutes.RegisterInvoice(router, dbPool)
+
+	if err := router.Run(":8080"); err != nil {
+		fmt.Fprintf(os.Stderr, "Server failed: %v\n", err)
+	}
+
 }
