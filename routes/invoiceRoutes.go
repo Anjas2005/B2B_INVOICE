@@ -1,4 +1,4 @@
-package invoiceRoutes
+package invoiceroutes
 
 import (
 	invoiceHandlers "github.com/Anjas2005/bookmarks-api/handlers"

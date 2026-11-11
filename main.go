@@ -2,48 +2,67 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"log"
 	"os"
 	"time"
 
 	"github.com/Anjas2005/bookmarks-api/db"
-	invoiceRoutes "github.com/Anjas2005/bookmarks-api/routes"
+	invoiceroutes "github.com/Anjas2005/bookmarks-api/routes"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	// Loading the environment
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error loading .env file: %v\n", err)
+	if err := run(); err != nil {
+		log.Printf("Application failed: %v", err)
 		os.Exit(1)
 	}
+}
 
-	// Create an empty context
+func run() error {
+
+	// Load .env if available
+	if err := godotenv.Load(); err != nil &&
+		!errors.Is(err, os.ErrNotExist) {
+		return fmt.Errorf("loading environment: %w", err)
+	}
+
+	// Create startup context
 	dbContext, cancel := context.WithTimeout(
 		context.Background(),
 		5*time.Second,
 	)
-	// Will end the cancel fxn when the main fxn ends
 	defer cancel()
 
-	// Get a DB connection pool back
+	// Initialize database pool
 	dbPool, err := db.DBConnect(dbContext)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error getting a connection pool: %v\n", err)
-		return
+		return fmt.Errorf("database connection failed: %w", err)
 	}
-	// Close the pool after the main server ends
-	// NOTE: defer calls run LIFO so cancel calls before dbpool.
 	defer dbPool.Close()
 
+	// Initialize Gin
 	router := gin.Default()
 
-	invoiceRoutes.RegisterInvoice(router, dbPool)
+	// Register routes
+	invoiceroutes.RegisterInvoice(router, dbPool)
 
-	if err := router.Run(":8080"); err != nil {
-		fmt.Fprintf(os.Stderr, "Server failed: %v\n", err)
+	// Read port
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
 	}
 
+	addr := ":" + port
+
+	log.Printf("Starting server on %s", addr)
+
+	// Start HTTP server
+	if err := router.Run(addr); err != nil {
+		return fmt.Errorf("HTTP server failed: %w", err)
+	}
+
+	return nil
 }

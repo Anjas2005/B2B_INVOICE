@@ -14,7 +14,7 @@ func DBConnect(ctx context.Context) (*pgxpool.Pool, error) {
 	connString := os.Getenv("DATABASE_URL")
 	if connString == "" {
 		fmt.Fprintf(os.Stderr, "DATABASE_URL not set\n")
-		os.Exit(1)
+		// os.Exit(1)
 	}
 
 	// Create the connection pool
