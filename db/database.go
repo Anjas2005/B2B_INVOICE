@@ -13,7 +13,6 @@ func DBConnect(ctx context.Context) (*pgxpool.Pool, error) {
 	// Get the connection string from the environment variable
 	connString := os.Getenv("DATABASE_URL")
 	if connString == "" {
-		fmt.Fprintf(os.Stderr, "DATABASE_URL not set\n")
 		return nil, fmt.Errorf("DATABASE_URL not set\n")
 		// os.Exit(1)
 	}
