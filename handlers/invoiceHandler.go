@@ -14,102 +14,6 @@ type InvoiceHandler struct {
 	DB *pgxpool.Pool
 }
 
-// TODO Make this such that the api can accept multiple invoices and store them
-// and also give the due invoices as a result
-
-// func (h *InvoiceHandler) CreateInvoice(c *gin.Context) {
-// 	// Creating an empty invoice list
-// 	var invoices []InvoiceModels.Invoice
-
-// 	// Reading the incoming JSON
-// 	if err := c.ShouldBindJSON(&invoices); err != nil {
-// 		c.JSON(400, gin.H{"error": err.Error()})
-// 		return
-// 	}
-
-// 	// Length needs to be minimum 1
-// 	if len(invoices) == 0{
-// 		c.JSON(http.StatusBadRequest,gin.H{
-// 			"error":"At least one invoice is required",
-// 		})
-// 		return
-// 	}
-
-// 	// Create a var for storing upda
-
-// 	for i := range invoices {
-
-// 		// Check whether the customer has overpaid
-// 		if invoice.PaidAmount > invoice.RequiredAmount {
-// 			c.JSON(400, gin.H{
-// 				"error": "Paid amount cannot exceed required amount",
-// 			})
-// 			return
-// 		}
-
-// 		// Calculate transaction status
-// 		if invoice.PaidAmount == invoice.RequiredAmount {
-
-// 			invoice.TransactionStatus = InvoiceModels.Fulfilled
-
-// 			completedAt := time.Now().UTC()
-// 			invoice.TransactionCompletionDate = &completedAt
-
-// 		} else {
-
-// 			invoice.TransactionStatus = InvoiceModels.Pending
-// 			invoice.TransactionCompletionDate = nil
-// 		}
-
-// 		// Parse due date
-// 		// TODO: Must be able to parse and undersand all date time formats
-// 		dueDate, err := time.Parse("2006-01-02", invoice.DueDate)
-// 		if err != nil {
-// 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid due date"})
-// 			return
-// 		}
-// 		// if no errors then invoices duedate is made the correct date
-// 		invoice.DueDate = dueDate
-// 	}
-
-// 	query := `
-// 	INSERT INTO invoices (
-// 	customer,
-// 	invoice_no,
-// 	required_amount,
-// 	paid_amount,
-// 	due_date,
-// 	transaction_status,
-// 	transaction_completion_date
-// 	)
-// 	VALUES ($1,$2,$3,$4,$5,$6,$7)
-// 	RETURNING id
-// 	`
-
-// 	// Inesert the Invoice into DB
-// 	err = h.DB.Query(
-// 		c.Request.Context(),
-// 		query,
-// 		invoice.Customer,
-// 		invoice.InvoiceNo,
-// 		invoice.RequiredAmount,
-// 		invoice.PaidAmount,
-// 		dueDate,
-// 		invoice.TransactionStatus,
-// 		invoice.TransactionCompletionDate,
-// 	).Scan(&invoice.ID)
-
-// 	if err != nil {
-// 		log.Printf("Failed to create invoice: %v", err)
-// 		c.JSON(http.StatusInternalServerError, gin.H{
-// 			"error": "Failed to create invoice",
-// 		})
-// 		return
-// 	}
-
-// 	c.JSON(http.StatusCreated, invoice)
-// }
-
 func (h *InvoiceHandler) CreateInvoice(c *gin.Context) {
 	// Var to store and process requests
 	var requests []InvoiceModels.Invoice
@@ -203,12 +107,6 @@ func (h *InvoiceHandler) CreateInvoice(c *gin.Context) {
 	`
 
 	for i := range invoices {
-		// // Convert the validated date string into time.Time for PostgreSQL
-		// dueDate, err := time.Parse("2006-01-02", invoices[i].DueDate)
-		// if err != nil {
-		// 	c.JSON(400, gin.H{"error": "Invalid due date"})
-		// 	return
-		// }
 
 		err = tx.QueryRow(
 			ctx,

@@ -1,111 +1,145 @@
-# Invoice Overdue API
+# B2B Invoice API
 
-A lightweight REST API for B2B SaaS applications and personal financial analysis.
+A REST API built with **Go, Gin and PostgreSQL** for creating and storing B2B invoices.
 
-**Purpose:** Identify overdue customer invoices and calculate how many days they are past their due date.
+Supports multiple invoice submissions in a single request, with payment validation and automatic transaction status calculation.
 
-## Example
+## Tech Stack
 
-**Endpoint:** `POST /invoices/analyze`
+- **Language:** Go
+- **Framework:** Gin
+- **Database:** PostgreSQL
+- **Driver:** pgx
+- **Deployment:** Render
 
-**Input:**
+## Features
+
+- Create single or multiple invoices.
+- Validate invoice and payment data.
+- Prevent overpayments.
+- Automatically calculate payment status (`pending` / `fulfilled`).
+- Record payment completion timestamps.
+- Use database transactions for atomic batch insertion.
+
+## API
+
+**Base URL:** https://b2b-invoice.onrender.com
+
+### Create Invoices
+
+`POST /invoices`
+
+Request body:
+
+```json
+[
+  {
+    "customer": "ABC Traders",
+    "invoice_no": "INV-001",
+    "required_amount": 15000,
+    "paid_amount": 5000,
+    "due_date": "2026-11-30"
+  },
+  {
+    "customer": "XYZ Stores",
+    "invoice_no": "INV-002",
+    "required_amount": 8000,
+    "paid_amount": 8000,
+    "due_date": "2026-12-10"
+  }
+]
+```
+
+Response (`201 Created`):
+
 ```json
 {
-  "invoices": [
-    {
-      "customer": "ABC Traders",
-      "invoice_no": "INV-101",
-      "amount": 15000,
-      "due_date": "2026-11-01"
-    },
-    {
-      "customer": "XYZ Stores",
-      "invoice_no": "INV-102",
-      "amount": 8000,
-      "due_date": "2026-11-20"
-    }
-  ]
+  "message": "Invoices created successfully",
+  "count": 2
 }
 ```
 
-**Output:**
-```json
-{
-  "overdue_count": 1,
-  "overdue_amount": 15000,
-  "invoices": [
-    {
-      "customer": "ABC Traders",
-      "invoice_no": "INV-101",
-      "amount": 15000,
-      "days_overdue": 8
-    }
-  ]
-}
-```
+### Validation
 
-*Example output assumes the analysis date is November 9, 2026.*
+- Customer and invoice number are required.
+- Invoice numbers must be unique.
+- Required amount must be greater than zero.
+- Paid amount cannot exceed the required amount.
+- Due dates must follow `YYYY-MM-DD`.
+- Empty invoice batches are rejected.
 
 ## Project Structure
 
 ```text
-invoice-api/
-│
-├── main.go
-│
-├── models/
-│   └── invoice.go
-│
+.
+├── db/
+│   ├── database.go
+│   └── migrations/
 ├── handlers/
-│   └── invoice.go
-│
-├── services/
-│   └── invoice.go
-│
+│   └── invoiceHandler.go
+├── models/
+│   └── invoiceModel.go
 ├── routes/
-│   └── routes.go
-│
-├── .env
-├── .gitignore
+│   └── invoiceRoutes.go
+├── services/
+├── main.go
 ├── go.mod
 └── go.sum
 ```
 
-## File Responsibilities
+## Run Locally
 
-| File | Responsibility |
-|---|---|
-| [`main.go`](main.go) | Application entry point. Initializes and starts the HTTP server. |
-| [`models/invoice.go`](models/invoice.go) | Defines the invoice data structures and JSON fields. |
-| [`handlers/invoice.go`](handlers/invoice.go) | Handles HTTP requests, parses input, and returns JSON responses. |
-| [`services/invoice.go`](services/invoice.go) | Contains the core business logic: identifying overdue invoices and calculating overdue amounts and days. |
-| [`routes/routes.go`](routes/routes.go) | Registers API endpoints and connects them to handlers. |
-| [`.env`](.env) | Stores environment configuration. |
-| [`.gitignore`](.gitignore) | Specifies files Git should ignore. |
-| [`go.mod`](go.mod) | Defines the Go module and dependencies. |
-| [`go.sum`](go.sum) | Verifies dependency integrity. |
+Clone the repository:
 
-## Request Flow
-
-```text
-       HTTP Request
-            |
-            v
-         main.go
-            |
-            v
-         routes/
-            |
-            v
-        handlers/
-            |
-            v
-        services/
-            |
-            v
-      JSON Response
+```bash
+git clone https://github.com/Anjas2005/B2B_INVOICE.git
+cd B2B_INVOICE
 ```
 
-**Core responsibility:** Accept invoice data, identify overdue invoices, calculate the total overdue amount, and return the results.
+Install dependencies:
 
-**Note:** No database is required in the initial version. Each request is processed independently.
+```bash
+go mod download
+```
+
+Configure environment variables in `.env`:
+
+```env
+DATABASE_URL=your_postgresql_connection_string
+GIN_MODE=release
+PORT=8080
+```
+
+Apply the SQL migration in `db/migrations/` to your PostgreSQL database. Execute the `Up` section only.
+
+Start the server:
+
+```bash
+go run .
+```
+
+The API will run on `http://localhost:8080`.
+
+## Deployment
+
+Deployed on Render:
+
+https://b2b-invoice.onrender.com
+
+**Build command:**
+
+```bash
+go build -tags netgo -ldflags '-s -w' -o app .
+```
+
+**Start command:**
+
+```bash
+./app
+```
+
+Configure `DATABASE_URL` in Render's environment settings.
+
+---
+
+**Note:** All invoices in a batch are inserted within a single database transaction. If an insertion fails, the transaction is rolled back.
