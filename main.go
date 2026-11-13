@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/Anjas2005/bookmarks-api/db"
-	invoiceroutes "github.com/Anjas2005/bookmarks-api/routes"
+	"github.com/Anjas2005/bookmarks-api/modules"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -46,8 +46,7 @@ func run() error {
 	// Initialize Gin
 	router := gin.Default()
 
-	// Register routes
-	invoiceroutes.RegisterInvoice(router, dbPool)
+	modules.RegisterInvoice(router, dbPool)
 
 	// Read port
 	port := os.Getenv("PORT")

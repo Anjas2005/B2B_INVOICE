@@ -1,15 +1,12 @@
 package invoiceroutes
 
 import (
-	invoiceHandlers "github.com/Anjas2005/bookmarks-api/handlers"
+	InvoiceHandlers "github.com/Anjas2005/bookmarks-api/handlers"
 	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func RegisterInvoice(router *gin.Engine, pool *pgxpool.Pool) {
-	invoiceHandler := invoiceHandlers.InvoiceHandler{
-		DB: pool,
-	}
+func RegisterInvoice(router *gin.Engine,
+	handler *InvoiceHandlers.InvoiceHandler) {
 
-	router.POST("/invoices", invoiceHandler.CreateInvoice)
+	router.POST("/invoices", handler.CreateInvoice)
 }

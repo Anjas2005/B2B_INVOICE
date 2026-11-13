@@ -8,7 +8,7 @@ CREATE TABLE invoices (
     invoice_no VARCHAR(50) NOT NULL UNIQUE,
 
     required_amount BIGINT NOT NULL
-        CHECK (required_amount >= 0),
+        CHECK (required_amount > 0),
 
     paid_amount BIGINT NOT NULL DEFAULT 0
         CHECK (paid_amount >= 0),
@@ -25,12 +25,6 @@ CREATE TABLE invoices (
         CHECK (paid_amount <= required_amount)
 );
 
-
 -- +goose Down
 
 DROP TABLE invoices;
-
-
--- TODO: NOTE: FIX: Up describes the change you want to apply.
---
--- Down describes how to reverse that change.

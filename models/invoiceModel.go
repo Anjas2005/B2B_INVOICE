@@ -1,6 +1,8 @@
 package InvoiceModels
 
-import "time"
+import (
+	"time"
+)
 
 type TransactionStatus string
 
@@ -10,7 +12,6 @@ const (
 )
 
 type Invoice struct {
-	ID                        int64             `json:"id"`
 	Customer                  string            `json:"customer" binding:"required,max=50"`
 	InvoiceNo                 string            `json:"invoice_no" binding:"required,max=50"`
 	RequiredAmount            int64             `json:"required_amount" binding:"required,gt=0"`
